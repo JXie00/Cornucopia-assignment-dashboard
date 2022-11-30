@@ -113,7 +113,7 @@ const MainPage: React.FunctionComponent<{}> = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       {isLoading ? (
         <div>Loading....</div>
       ) : (
@@ -123,7 +123,6 @@ const MainPage: React.FunctionComponent<{}> = () => {
             countryOnChange={updateFormikByName("countryName")}
             numberValue={Formik.values.phoneNumber}
             options={availableContries}
-            title={"Country"}
             onSubmit={handleSubmission}
             numberError={Formik.errors.phoneNumber}
             optionError={Formik.errors.countryName}

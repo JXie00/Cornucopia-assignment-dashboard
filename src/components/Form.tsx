@@ -1,11 +1,11 @@
 import React from "react";
+import classes from "./Form.module.css";
 
 type FormProps = {
   numberOnChange: Function;
   countryOnChange: Function;
   numberValue: string;
   options: string[];
-  title: string;
   onSubmit: Function;
   optionError?: string;
   numberError?: string;
@@ -16,7 +16,6 @@ export const PhoneValidationForm: React.FunctionComponent<FormProps> = ({
   numberOnChange,
   countryOnChange,
   options,
-  title,
   numberValue,
   onSubmit,
   optionError,
@@ -38,27 +37,40 @@ export const PhoneValidationForm: React.FunctionComponent<FormProps> = ({
     onSubmit();
   };
   return (
-    <form>
-      <label>{title}</label>
-      <select name="selector" id="selector" onChange={handleCountryChange}>
-        <option value="" label="Select a Country">
-          " "
-        </option>
-        {options.map((text, index) => (
-          <option key={index} value={text}>
-            {text}
+    <div>
+      <form className={classes.form}>
+        <label>Country</label>
+        <select
+          className={classes.element}
+          name="selector"
+          id="selector"
+          onChange={handleCountryChange}
+        >
+          <option value="" label="Select a Country">
+            " "
           </option>
-        ))}
-      </select>
-      <div>{<span>{optionError || " "}</span>}</div>
+          {options.map((text, index) => (
+            <option key={index} value={text}>
+              {text}
+            </option>
+          ))}
+        </select>
 
-      <input value={numberValue} onChange={handleNumberChange} />
+        <div className={classes.warning}>{optionError || " "}</div>
 
-      <div>{<span>{numberError || " "}</span>}</div>
+        <label>Phone Number</label>
+        <input
+          className={classes.element}
+          value={numberValue}
+          onChange={handleNumberChange}
+        />
 
-      <button type="submit" onClick={handleSubmit} disabled={disabled}>
-        Submit
-      </button>
-    </form>
+        <div className={classes.warning}>{numberError || " "}</div>
+
+        <button type="submit" onClick={handleSubmit} disabled={disabled}>
+          Submit
+        </button>
+      </form>
+    </div>
   );
 };

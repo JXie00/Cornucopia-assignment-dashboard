@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+}
+
+.form {
+  padding: 1rem;
+  margin: auto;
+}
+
+.element {
+  margin-bottom: 20px;
+}
+
+.warning {
+  color: red;
+  height: "20px";
+  font-size: "14px";
+}
