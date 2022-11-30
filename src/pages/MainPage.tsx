@@ -3,7 +3,9 @@ import { useSnackbar } from "notistack";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
-import { getAvailableCountriesList } from "../utils/apis";
+import { Details } from "../components/Details";
+import { PhoneValidationForm } from "../components/Form";
+import { getAvailableCountriesList, validatePhoneNumber } from "../utils/apis";
 import { PhoneNumberValidationRequestType } from "../utils/types/requests";
 import { PhoneNumberValidationResponseType } from "../utils/types/responses";
 
@@ -19,7 +21,8 @@ const MainPage: React.FunctionComponent<{}> = () => {
   );
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [response, setResponse] = React.useState<
+
+  const [validationResponse, setValidationResponse] = React.useState<
     PhoneNumberValidationResponseType
   >();
 
@@ -45,6 +48,16 @@ const MainPage: React.FunctionComponent<{}> = () => {
     validateOnBlur: enableFormikValidation,
     onSubmit: async (values) => {
       try {
+        setIsLoading(true);
+        const { data } = await validatePhoneNumber(values);
+        console.log(data);
+        setValidationResponse(data);
+        enqueueSnackbar("Succeed", {
+          variant: "success",
+          autoHideDuration: 10000,
+          onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+            closeSnackbar(),
+        });
       } catch (err) {
         enqueueSnackbar("Something went wrong, Please try again later", {
           variant: "error",
@@ -67,8 +80,13 @@ const MainPage: React.FunctionComponent<{}> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+  const handleSubmission = (e: React.MouseEvent<Element, MouseEvent>) => {
+    setEnableFormikValidation(true);
+    return Formik.handleSubmit();
+  };
 
   React.useEffect(() => {
+    setIsLoading(true);
     const getCountryList = async () => {
       try {
         const { data } = await getAvailableCountriesList();
@@ -80,16 +98,31 @@ const MainPage: React.FunctionComponent<{}> = () => {
           onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
             closeSnackbar(),
         });
+      } finally {
+        setIsLoading(false);
       }
     };
     getCountryList();
   }, []);
-
   return (
     <div>
-      <div>Hi it"s me </div>
-
-      <div>{availableContries[0]}</div>
+      {isLoading ? (
+        <div>Loading....</div>
+      ) : (
+        <div>
+          <PhoneValidationForm
+            numberOnChange={updateFormikByName("phoneNumber")}
+            countryOnChange={updateFormikByName("countryName")}
+            numberValue={Formik.values.phoneNumber}
+            options={availableContries}
+            title={"Country"}
+            onSubmit={handleSubmission}
+            numberError={Formik.errors.phoneNumber}
+            optionError={Formik.errors.countryName}
+          />
+        </div>
+      )}
+      {validationResponse != null && <Details values={validationResponse} />}
     </div>
   );
 };

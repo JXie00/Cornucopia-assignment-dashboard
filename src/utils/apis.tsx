@@ -10,6 +10,6 @@ export const getAvailableCountriesList = async () => {
 export const validatePhoneNumber = async (
   req: PhoneNumberValidationRequestType
 ) => {
-  const url = `${process.env.REACT_APP_SERVER_URL}}/phonenumbers/validate`;
+  const url = `${process.env.REACT_APP_SERVER_URL}/phonenumbers/validate`;
   return await post<PhoneNumberValidationResponseType>(url, req);
 };
