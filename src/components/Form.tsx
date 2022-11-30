@@ -7,9 +7,9 @@ type FormProps = {
   options: string[];
   title: string;
   onSubmit: Function;
-
   optionError?: string;
   numberError?: string;
+  disabled: boolean;
 };
 
 export const PhoneValidationForm: React.FunctionComponent<FormProps> = ({
@@ -21,6 +21,7 @@ export const PhoneValidationForm: React.FunctionComponent<FormProps> = ({
   onSubmit,
   optionError,
   numberError,
+  disabled,
 }) => {
   const handleNumberChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     numberOnChange(event.target.value);
@@ -40,7 +41,9 @@ export const PhoneValidationForm: React.FunctionComponent<FormProps> = ({
     <form>
       <label>{title}</label>
       <select name="selector" id="selector" onChange={handleCountryChange}>
-        <option value="" label="Select a Country"></option>
+        <option value="" label="Select a Country">
+          " "
+        </option>
         {options.map((text, index) => (
           <option key={index} value={text}>
             {text}
@@ -53,7 +56,9 @@ export const PhoneValidationForm: React.FunctionComponent<FormProps> = ({
 
       <div>{<span>{numberError || " "}</span>}</div>
 
-      <button onClick={handleSubmit}>Submit</button>
+      <button type="submit" onClick={handleSubmit} disabled={disabled}>
+        Submit
+      </button>
     </form>
   );
 };

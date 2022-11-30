@@ -16,12 +16,15 @@ const MainPage: React.FunctionComponent<{}> = () => {
   // snackbar to display information
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
+  // State to manage the list of avaialble countries
   const [availableContries, setAvailableCountries] = React.useState<string[]>(
     []
   );
 
+  // flag to check if the the page is loading or not
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
+  // The response of the validation
   const [validationResponse, setValidationResponse] = React.useState<
     PhoneNumberValidationResponseType
   >();
@@ -32,6 +35,7 @@ const MainPage: React.FunctionComponent<{}> = () => {
 
   interface FormFormikProps extends PhoneNumberValidationRequestType {}
 
+  // schema validation
   const validationSchema = yup.object({
     countryName: yup.string().required("Country name is required"),
     phoneNumber: yup.string().required("Phone number is required"),
@@ -70,6 +74,7 @@ const MainPage: React.FunctionComponent<{}> = () => {
     },
   });
 
+  // method for update formik properties
   const updateFormikByName = React.useCallback(
     (name: string) => {
       return (value: string | undefined): void => {
@@ -79,11 +84,14 @@ const MainPage: React.FunctionComponent<{}> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
+  // method to handle submission
   const handleSubmission = (e: React.MouseEvent<Element, MouseEvent>) => {
     setEnableFormikValidation(true);
     return Formik.handleSubmit();
   };
 
+  // useEffect hook that runs when the page loads
   React.useEffect(() => {
     setIsLoading(true);
     const getCountryList = async () => {
@@ -119,6 +127,7 @@ const MainPage: React.FunctionComponent<{}> = () => {
             onSubmit={handleSubmission}
             numberError={Formik.errors.phoneNumber}
             optionError={Formik.errors.countryName}
+            disabled={!Formik.isValid}
           />
         </div>
       )}
