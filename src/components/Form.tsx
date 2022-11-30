@@ -5,6 +5,7 @@ type FormProps = {
   numberOnChange: Function;
   countryOnChange: Function;
   numberValue: string;
+  countryNameValue: string;
   options: string[];
   onSubmit: Function;
   optionError?: string;
@@ -17,6 +18,7 @@ export const PhoneValidationForm: React.FunctionComponent<FormProps> = ({
   countryOnChange,
   options,
   numberValue,
+  countryNameValue,
   onSubmit,
   optionError,
   numberError,
@@ -44,11 +46,10 @@ export const PhoneValidationForm: React.FunctionComponent<FormProps> = ({
           className={classes.element}
           name="selector"
           id="selector"
+          value={countryNameValue}
           onChange={handleCountryChange}
         >
-          <option value="" label="Select a Country">
-            " "
-          </option>
+          <option value="" label=""></option>
           {options.map((text, index) => (
             <option key={index} value={text}>
               {text}

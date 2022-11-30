@@ -122,6 +122,7 @@ const MainPage: React.FunctionComponent<{}> = () => {
             numberOnChange={updateFormikByName("phoneNumber")}
             countryOnChange={updateFormikByName("countryName")}
             numberValue={Formik.values.phoneNumber}
+            countryNameValue={Formik.values.countryName}
             options={availableContries}
             onSubmit={handleSubmission}
             numberError={Formik.errors.phoneNumber}
