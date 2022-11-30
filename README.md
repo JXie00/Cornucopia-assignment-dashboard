@@ -2,7 +2,7 @@
 
 ## Local set up
 
-- Close this repo
+- Clone this repo
 
 `git clone git@github.com:JXie00/Cornucopia-assignment-dashboard.git`
 
