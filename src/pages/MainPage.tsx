@@ -50,7 +50,6 @@ const MainPage: React.FunctionComponent<{}> = () => {
       try {
         setIsLoading(true);
         const { data } = await validatePhoneNumber(values);
-        console.log(data);
         setValidationResponse(data);
         enqueueSnackbar("Succeed", {
           variant: "success",
@@ -104,6 +103,7 @@ const MainPage: React.FunctionComponent<{}> = () => {
     };
     getCountryList();
   }, []);
+
   return (
     <div>
       {isLoading ? (
